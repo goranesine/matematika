@@ -3,20 +3,14 @@ import 'package:flutter/material.dart';
 
 import 'dart:math';
 
-
-
 class Matematika with ChangeNotifier {
+
   int _firstNumber = 0;
   int _secondNumber = 0;
   int _sum;
   int _level = 1;
   Random _random = Random();
   int _points = 0;
-
-  // void zeroPoints(){
-  // points < 0 ? _points = 0 : _points = _points;
-  // notifyListeners();
-  // }
 
   int get firstNumber => _firstNumber;
 
@@ -26,6 +20,7 @@ class Matematika with ChangeNotifier {
 
   int get points => _points;
 
+
   void getRandomNumber() {
     _firstNumber = _random.nextInt(_level * 10);
     _secondNumber = _random.nextInt(_level * 10);
@@ -33,7 +28,6 @@ class Matematika with ChangeNotifier {
   }
 
   void checkSum(int userInput, context) {
-    final snackBar = SnackBar(content: Text(_level.toString()));
     _sum = _firstNumber + _secondNumber;
     if (userInput != _sum) {
       falseResult();
@@ -58,8 +52,10 @@ class Matematika with ChangeNotifier {
 
   int zeroLevels(int currentLevel) {
     currentLevel < 2 ? _level = 1 : _level = _level - 1;
+
     getRandomNumber();
     notifyListeners();
+
     return _level;
   }
 

@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:numberpicker/numberpicker.dart';
 import 'package:matematika/stateManagment/matematika_state.dart';
@@ -9,28 +11,34 @@ class AnswerNumber extends StatefulWidget {
 }
 
 class _AnswerNumberState extends State<AnswerNumber> {
-  int _userInput = 10;
-  
+  int _userInput;
 
-  _resolvePop(){
-    Provider.of<Matematika>(context,listen: false).checkSum(_userInput, context);
+
+  _resolveResult() {
+    Provider.of<Matematika>(context, listen: false)
+        .checkSum(_userInput, context);
   }
 
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
     return OutlineButton(
+        onPressed: () => Navigator.pop(context, _resolveResult()),
+        child: Consumer<Matematika>(
+          builder: (context, data, child) {
+            int maxNumber = data.level * 20;
 
-      onPressed: () =>Navigator.pop(context,_resolvePop()),
+            int initialNumber = data.firstNumber;
 
-      child: NumberPicker.integer(
-
-        itemExtent: 300.0,
-        highlightSelectedValue: true,
-          initialValue: _userInput,
-          minValue: 0,
-          maxValue: 200,
-          onChanged: (newValue) => setState(() => _userInput = newValue)),
-    );
+            return NumberPicker.integer(
+              listViewWidth: 1000.0,
+                itemExtent: 100.0,
+                highlightSelectedValue: true,
+                initialValue: initialNumber,
+                minValue: 0,
+                maxValue: maxNumber,
+                onChanged: (newValue) => setState(() => _userInput = newValue));
+          },
+        ));
   }
 }
